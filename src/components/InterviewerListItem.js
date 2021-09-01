@@ -3,7 +3,7 @@ import "components/InterviewerListItem.scss";
 const classnames = require("classnames");
 
 export default function InterviewerListItem(props) {
-  const { id, name, avatar, selected, setInterviewer } = props;
+  const { name, avatar, selected, setInterviewer } = props;
 
   const interviewerClass = classnames("interviewers__item", {
     "interviewers__item--selected": selected,
@@ -12,7 +12,7 @@ export default function InterviewerListItem(props) {
   return (
     <li className={interviewerClass} onClick={setInterviewer}>
       <img className="interviewers__item-image" src={avatar} alt={name} />
-      {name}
+      {selected && name}
     </li>
   );
 }
