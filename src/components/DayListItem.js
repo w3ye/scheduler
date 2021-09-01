@@ -15,7 +15,6 @@ export default function DayListItem(props) {
     "day-list__item--full": spots === 0,
   });
 
-  console.log(dayClass);
   return (
     <li onClick={() => setDay(name)} className={dayClass}>
       <h2 className="text--regular">{name}</h2>
