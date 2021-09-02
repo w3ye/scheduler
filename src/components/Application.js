@@ -2,7 +2,54 @@ import React, { useState } from "react";
 
 import "components/Application.scss";
 import DayList from "components/DayList";
-// import { action } from "@storybook/addon-actions/dist/preview";
+import Appointment from "components/Appointment";
+
+const appointments = [
+  {
+    id: 1,
+    time: "12pm",
+  },
+  {
+    id: 2,
+    time: "1pm",
+    interview: {
+      student: "Lydia Miller-Jones",
+      interviewer: {
+        id: 1,
+        name: "Sylvia Palmer",
+        avatar: "https://i.imgur.com/LpaY82x.png",
+      },
+    },
+  },
+  {
+    id: 2,
+    time: "2pm",
+  },
+  {
+    id: 4,
+    time: "3pm",
+    interview: {
+      student: "John Wick",
+      interviewer: {
+        id: 4,
+        name: "Cohana Roy",
+        avatar: "https://i.imgur.com/FK8V841.jpg",
+      },
+    },
+  },
+  {
+    id: 5,
+    time: "4pm",
+    interviewe: {
+      student: "Lydia",
+      interviewer: {
+        id: 5,
+        name: "Sven Jones",
+        avatar: "https://i.imgur.com/twYrpay.jpg",
+      },
+    },
+  },
+];
 
 export default function Application(props) {
   const [currentDay, setCurrentDay] = useState("Monday");
@@ -24,6 +71,10 @@ export default function Application(props) {
       spots: 0,
     },
   ];
+  const parsedAppointments = appointments.map(appointment => {
+    return <Appointment {... appointment}/>
+  });
+
   return (
     <main className="layout">
       <section className="sidebar">
@@ -44,7 +95,8 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
+        {parsedAppointments}
+        <Appointment key="last" time="5pm" />
       </section>
     </main>
   );
