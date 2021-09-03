@@ -53,14 +53,22 @@ const appointments = [
 ];
 
 export default function Application(props) {
-  const [currentDay, setCurrentDay] = useState("Monday");
-  const [days, setDays] = useState([]);
+  const [state, setState] = useState({
+    currentDay: "Monday",
+    days: [],
+    appointments: {},
+  });
+  // setStates
+  const setCurrentDay = (currentDay) => setState({ ...state, currentDay });
+  const setDays = (days) => setState((prev) => ({...prev, days}));
+  
 
-  const parsedAppointments = appointments.map((appointment) => {
-    return <Appointment {...appointment} />;
+  const parsedAppointments = appointments.map((appointment, i) => {
+    // ! key is currently set to i(index)
+    return <Appointment key={i} {...appointment} />;
   });
 
-  // Get day data 
+  // Get day data
   useEffect(() => {
     axios
       .get("/api/days")
@@ -82,7 +90,13 @@ export default function Application(props) {
         />
         <hr className="sidebar__separator sidebar--centered" />
 
-        <DayList {...{ days, day: currentDay, setDay: setCurrentDay }} />
+        <DayList
+          {...{
+            days: state.days,
+            day: state.currentDay,
+            setDay: setCurrentDay,
+          }}
+        />
 
         <nav className="sidebar__menu"></nav>
         <img
