@@ -12,6 +12,7 @@ export default function Application(props) {
     days: [],
     appointments: {},
   });
+<<<<<<< HEAD
 
   const setCurrentDay = (currentDay) => setState({ ...state, currentDay });
 
@@ -22,6 +23,19 @@ export default function Application(props) {
   });
 
   // API request
+=======
+  // setStates
+  const setCurrentDay = (currentDay) => setState({ ...state, currentDay });
+  const setDays = (days) => setState((prev) => ({...prev, days}));
+  
+
+  const parsedAppointments = appointments.map((appointment, i) => {
+    // ! key is currently set to i(index)
+    return <Appointment key={i} {...appointment} />;
+  });
+
+  // Get day data
+>>>>>>> 5f43da1647e28201f79dc705edfbdf0372c4d96f
   useEffect(() => {
     // Get API request from /days and /appointments
     Promise.all([axios.get("api/days"), axios.get("api/appointments")])
