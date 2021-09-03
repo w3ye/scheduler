@@ -5,7 +5,6 @@ import Header from "components/Appointment/Header";
 import Show from "components/Appointment/Show";
 
 export default function index(props) {
-  console.log(props.interview);
   return (
     <article className="appointment">
       <Header time={props.time}></Header>
