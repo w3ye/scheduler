@@ -4,53 +4,55 @@ import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment";
 import axios from "axios";
-import { getAppointmentsForDay } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview } from "helpers/selectors";
 
 export default function Application(props) {
   const [state, setState] = useState({
     currentDay: "Monday",
     days: [],
     appointments: {},
+    interviewers: {},
   });
-<<<<<<< HEAD
 
   const setCurrentDay = (currentDay) => setState({ ...state, currentDay });
 
   const dailyAppointments = getAppointmentsForDay(state, state.currentDay);
 
-  const parsedAppointments = dailyAppointments.map((appointment, i) => {
-    return <Appointment key={i} {...appointment} />;
+  const parsedAppointments = dailyAppointments.map((appointment) => {
+    const interview = getInterview(state, appointment.interview);
+    console.log('interview', interview)
+    return <Appointment key={appointment.id} {...appointment} />;
   });
 
   // API request
-=======
-  // setStates
-  const setCurrentDay = (currentDay) => setState({ ...state, currentDay });
-  const setDays = (days) => setState((prev) => ({...prev, days}));
-  
-
-  const parsedAppointments = appointments.map((appointment, i) => {
-    // ! key is currently set to i(index)
-    return <Appointment key={i} {...appointment} />;
-  });
-
-  // Get day data
->>>>>>> 5f43da1647e28201f79dc705edfbdf0372c4d96f
   useEffect(() => {
     // Get API request from /days and /appointments
-    Promise.all([axios.get("api/days"), axios.get("api/appointments")])
+    Promise.all([
+      axios.get("api/days"),
+      axios.get("api/appointments"),
+      axios.get("api/interviewers"),
+    ])
       .then((all) => {
         // setState for days, appointments at once
         setState((prev) => ({
           ...prev,
           days: all[0].data,
           appointments: all[1].data,
+          interviewers: all[2].data,
         }));
       })
       .catch((err) => {
         return err;
       });
   }, []);
+
+  // useEffect(() => {
+  //   console.log('parsedAppointments',parsedAppointments);
+  //   console.log('dailyAppointments', dailyAppointments)
+  //   console.log("days", state.days);
+  //   console.log("appointments", state.appointments);
+  //   console.log("interviewers", state.interviewers);
+  // });
 
   return (
     <main className="layout">
