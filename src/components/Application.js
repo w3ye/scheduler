@@ -5,62 +5,24 @@ import DayList from "components/DayList";
 import Appointment from "components/Appointment";
 import axios from "axios";
 
-const appointments = [
-  {
-    id: 1,
-    time: "12pm",
-  },
-  {
-    id: 2,
-    time: "1pm",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer: {
-        id: 1,
-        name: "Sylvia Palmer",
-        avatar: "https://i.imgur.com/LpaY82x.png",
-      },
-    },
-  },
-  {
-    id: 2,
-    time: "2pm",
-  },
-  {
-    id: 4,
-    time: "3pm",
-    interview: {
-      student: "John Wick",
-      interviewer: {
-        id: 4,
-        name: "Cohana Roy",
-        avatar: "https://i.imgur.com/FK8V841.jpg",
-      },
-    },
-  },
-  {
-    id: 5,
-    time: "4pm",
-    interviewe: {
-      student: "Lydia",
-      interviewer: {
-        id: 5,
-        name: "Sven Jones",
-        avatar: "https://i.imgur.com/twYrpay.jpg",
-      },
-    },
-  },
-];
-
 export default function Application(props) {
-  const [currentDay, setCurrentDay] = useState("Monday");
-  const [days, setDays] = useState([]);
+  const [state, setState] = useState({
+    currentDay: "Monday",
+    days: [],
+    appointments: {},
+  });
+  // setStates
+  const setCurrentDay = (currentDay) => setState({ ...state, currentDay });
+  const setDays = (days) => setState((prev) => ({...prev, days}));
+  
+  const dailyAppointments = [];
 
-  const parsedAppointments = appointments.map((appointment) => {
-    return <Appointment {...appointment} />;
+  const parsedAppointments = dailyAppointments.map((appointment, i) => {
+    // ! key is currently set to i(index)
+    return <Appointment key={i} {...appointment} />;
   });
 
-  // Get day data 
+  // API request GET days data
   useEffect(() => {
     axios
       .get("/api/days")
@@ -82,7 +44,13 @@ export default function Application(props) {
         />
         <hr className="sidebar__separator sidebar--centered" />
 
-        <DayList {...{ days, day: currentDay, setDay: setCurrentDay }} />
+        <DayList
+          {...{
+            days: state.days,
+            day: state.currentDay,
+            setDay: setCurrentDay,
+          }}
+        />
 
         <nav className="sidebar__menu"></nav>
         <img
