@@ -30,7 +30,7 @@ export function getInterviewersForDay(state, day) {
       const interview = state.appointments[appointment].interview;
       if (interview) {
         const interviewer = interview.interviewer;
-        ret.push(state.interviewers[interviewer])
+        if (!ret.includes(state.interviewers[interviewer])) ret.push(state.interviewers[interviewer])
       }
     });
   });
