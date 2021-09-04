@@ -11,13 +11,28 @@ export function getAppointmentsForDay(state, day) {
 
 export function getInterview(state, interview) {
   const ret = {};
-  for(let key in state.interviewers) {
+  for (let key in state.interviewers) {
     if (interview === null) return null;
     // when the interviwer in interview matches with interviewer
     if (state.interviewers[key].id === interview.interviewer) {
-      ret['student'] = interview.student;
-      ret['interviewer'] = state.interviewers[key];
-    } 
+      ret["student"] = interview.student;
+      ret["interviewer"] = state.interviewers[key];
+    }
   }
+  return ret;
+}
+
+export function getInterviewersForDay(state, day) {
+  const ret = [];
+  const filterDays = state.days.filter((i) => i.name === day);
+  filterDays.forEach((i) => {
+    i.appointments.forEach((appointment) => {
+      const interview = state.appointments[appointment].interview;
+      if (interview) {
+        const interviewer = interview.interviewer;
+        ret.push(state.interviewers[interviewer])
+      }
+    });
+  });
   return ret;
 }
