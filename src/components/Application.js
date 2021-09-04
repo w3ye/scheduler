@@ -20,8 +20,14 @@ export default function Application(props) {
 
   const parsedAppointments = dailyAppointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
-    console.log('interview', interview)
-    return <Appointment key={appointment.id} {...appointment} />;
+    return (
+      <Appointment
+        key={appointment.id}
+        id={appointment.id}
+        time={appointment.time}
+        interview={interview}
+      />
+    );
   });
 
   // API request
@@ -45,14 +51,6 @@ export default function Application(props) {
         return err;
       });
   }, []);
-
-  // useEffect(() => {
-  //   console.log('parsedAppointments',parsedAppointments);
-  //   console.log('dailyAppointments', dailyAppointments)
-  //   console.log("days", state.days);
-  //   console.log("appointments", state.appointments);
-  //   console.log("interviewers", state.interviewers);
-  // });
 
   return (
     <main className="layout">
