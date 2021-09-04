@@ -26,11 +26,16 @@ export function getInterviewersForDay(state, day) {
   const ret = [];
   const filterDays = state.days.filter((i) => i.name === day);
   filterDays.forEach((i) => {
+    // appointment array
     i.appointments.forEach((appointment) => {
+      // interview within the appointment array
       const interview = state.appointments[appointment].interview;
       if (interview) {
         const interviewer = interview.interviewer;
-        if (!ret.includes(state.interviewers[interviewer])) ret.push(state.interviewers[interviewer])
+        // avoid duplication
+        if (!ret.includes(state.interviewers[interviewer])) {
+          ret.push(state.interviewers[interviewer]);
+        }
       }
     });
   });
