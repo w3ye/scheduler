@@ -47,6 +47,19 @@ export default function Application(props) {
       ...state,
       appointments,
     });
+    axios
+      .put(`/api/appointments/${id}`, {
+        interview,
+      })
+      .then((result) => {
+        setState({
+          ...state,
+          appointments,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   // API request
