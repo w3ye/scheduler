@@ -30,13 +30,27 @@ export default function Application(props) {
         interview={interview}
         interviewers={interviewers}
         bookInterview={bookInterview}
+<<<<<<< HEAD
         save={save}
+=======
+>>>>>>> 92a0891 (implement save, bookInterview)
       />
     );
   });
 
   function bookInterview(id, interview) {
-    console.log(id, interview);
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview },
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
+    setState({
+      ...state,
+      appointments,
+    });
   }
 
   function save(name, interviewer) {

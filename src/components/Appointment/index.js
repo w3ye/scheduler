@@ -13,6 +13,22 @@ export default function Index(props) {
   const { interview, time, interviewers, save, bookInterview } = props;
   const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
 
+<<<<<<< HEAD
+=======
+  const { mode, transition, back } = useVisualMode(
+    props.interview ? SHOW : EMPTY
+  );
+
+  function save(name, interviewer) {
+    const interview = {
+      student: name,
+      interviewer,
+    };
+    props.bookInterview(props.id, interview);
+    transition("SHOW");
+  }
+
+>>>>>>> 92a0891 (implement save, bookInterview)
   return (
     <article className="appointment">
       <Header time={time}></Header>
@@ -23,6 +39,12 @@ export default function Index(props) {
       {mode === CREATE && (
         <Form interviewers={interviewers} onCancel={back} save={save} />
       )}
+<<<<<<< HEAD
+=======
+      {mode === CREATE && (
+        <Form interviewers={props.interviewers} onCancel={back} onSave={save} />
+      )}
+>>>>>>> 92a0891 (implement save, bookInterview)
     </article>
   );
 }
