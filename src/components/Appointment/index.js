@@ -10,18 +10,32 @@ export default function Index(props) {
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
-  const { interview, time, interviewers, save, bookInterview } = props;
-  const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
+
+  const { mode, transition, back } = useVisualMode(
+    props.interview ? SHOW : EMPTY
+  );
+
+  function save(name, interviewer) {
+    const interview = {
+      student: name,
+      interviewer,
+    };
+    props.bookInterview(props.id, interview);
+    transition("SHOW");
+  }
 
   return (
     <article className="appointment">
-      <Header time={time}></Header>
+      <Header time={props.time}></Header>
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === SHOW && (
-        <Show student={interview.student} interviewer={interview.interviewer} />
+        <Show
+          student={props.interview.student}
+          interviewer={props.interview.interviewer}
+        />
       )}
       {mode === CREATE && (
-        <Form interviewers={interviewers} onCancel={back} save={save} />
+        <Form interviewers={props.interviewers} onCancel={back} onSave={save} />
       )}
     </article>
   );
