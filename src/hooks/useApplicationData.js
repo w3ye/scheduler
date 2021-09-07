@@ -10,6 +10,12 @@ export default function useApplicationData() {
   });
   const setCurrentDay = (currentDay) => setState({ ...state, currentDay });
 
+  /**
+   * Create a new interview
+   * @param {string} id
+   * @param {Object} interview
+   * @returns {Promise}
+   */
   function bookInterview(id, interview) {
     const appointment = {
       ...state.appointments[id],
@@ -19,6 +25,7 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment,
     };
+
     return axios
       .put(`/api/appointments/${id}`, {
         interview,
@@ -28,9 +35,17 @@ export default function useApplicationData() {
           ...state,
           appointments,
         });
+      })
+      .then(() => {
+        updateSpots(false);
       });
   }
 
+  /**
+   * Cancel an exisiting interview/appointment
+   * @param {string} id
+   * @returns {Promise}
+   */
   function cancelInterview(id) {
     // Set the appointment interview to null
     const appointment = {
@@ -43,13 +58,38 @@ export default function useApplicationData() {
       [id]: appointment,
     };
 
-    return axios.delete(`/api/appointments/${id}`, {}).then((res) => {
-      setState({
-        ...state,
-        appointments,
+    return axios
+      .delete(`/api/appointments/${id}`, {})
+      .then((res) => {
+        setState({
+          ...state,
+          appointments,
+        });
+      })
+      .then(() => {
+        updateSpots(true);
       });
-    });
   }
+
+  /**
+   * Update spots
+   * @param {boolean} flag, true = +1, false = -1
+   * @returns spots
+   */
+  function updateSpots(flag) {
+    const sumOne = flag ? +1 : -1;
+    const newDays = state.days.map((day) => {
+      if (day.name === state.currentDay) {
+        day.spots = day.spots + sumOne;
+      }
+      return day;
+    });
+    setState((prev) => ({
+      ...prev,
+      days: newDays,
+    }));
+  }
+
   // API request
   useEffect(() => {
     // Get API request from /days and /appointments
@@ -72,5 +112,5 @@ export default function useApplicationData() {
       });
   }, []);
 
-  return { state, setCurrentDay, bookInterview, cancelInterview };
+  return { state, setCurrentDay, bookInterview, cancelInterview, updateSpots };
 }
