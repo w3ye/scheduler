@@ -1,3 +1,9 @@
+/**
+ * Get all the appointments for a specific day
+ * @param {Object} state
+ * @param {string} day
+ * @returns {string[]} appointments[]
+ */
 export function getAppointmentsForDay(state, day) {
   const filteredDays = state.days.filter((i) => i.name === day);
   const resultArr = [];
@@ -9,6 +15,12 @@ export function getAppointmentsForDay(state, day) {
   return resultArr;
 }
 
+/**
+ * Get a interviews from state object
+ * @param {Object} state
+ * @param {string} interview
+ * @returns {string[]} interviews[]
+ */
 export function getInterview(state, interview) {
   const ret = {};
   for (let key in state.interviewers) {
