@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function useVisualMode(initial) {
   const [mode, setMode] = useState(initial);
@@ -12,7 +12,7 @@ export default function useVisualMode(initial) {
   function transition(newMode, flag = false) {
     setMode(newMode);
     if (!flag) {
-      setHistory([...history, newMode]);
+      setHistory((prev) => [...prev, newMode]);
     } else {
       // remove the last element from the array and update history
       const tempHistoy = history;
@@ -33,6 +33,10 @@ export default function useVisualMode(initial) {
       setMode(history[0]);
     }
   }
+
+  useEffect(() => {
+    console.log(history);
+  }, [history]);
 
   return { mode, transition, back };
 }
