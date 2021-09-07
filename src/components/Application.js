@@ -44,10 +44,6 @@ export default function Application(props) {
       ...state.appointments,
       [id]: appointment,
     };
-    setState({
-      ...state,
-      appointments,
-    });
     return axios
       .put(`/api/appointments/${id}`, {
         interview,
@@ -57,9 +53,6 @@ export default function Application(props) {
           ...state,
           appointments,
         });
-      })
-      .catch((err) => {
-        console.log(err);
       });
   }
 
@@ -74,23 +67,13 @@ export default function Application(props) {
       ...state.appointments,
       [id]: appointment,
     };
-    // Update locally
-    setState({
-      ...state,
-      appointments,
-    });
 
-    return axios
-      .delete(`/api/appointments/${id}`, {})
-      .then(() => {
-        setState({
-          ...state,
-          appointments,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
+    return axios.delete(`/api/appointments/${id}`, {}).then((res) => {
+      setState({
+        ...state,
+        appointments,
       });
+    });
   }
 
   // API request

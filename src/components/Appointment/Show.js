@@ -1,5 +1,13 @@
 import React from "react";
 
+/**
+ * Renders a Show component for displaying a single booked appointment
+ * @param {Object} props
+ * @props {string} student
+ * @props {string} interviewer
+ * @props {function} onEdit
+ * @props {function} onDelete
+ */
 export default function Show(props) {
   const { student, interviewer, onEdit, onDelete } = props;
   return (

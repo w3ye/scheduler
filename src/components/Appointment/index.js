@@ -7,6 +7,7 @@ import Form from "components/Appointment/Form";
 import useVisualMode from "hooks/useVisualMode";
 import Status from "../Appointment/Status";
 import Confirm from "../Appointment/Confirm";
+import Error from "../Appointment/Error";
 
 export default function Index(props) {
   const EMPTY = "EMPTY";
@@ -15,6 +16,9 @@ export default function Index(props) {
   const SAVING = "SAVING";
   const CONFIRM = "CONFIRM";
   const DELETE = "DELETE";
+  const EDIT = "EDIT";
+  const ERROR_SAVE = "ERROR_SAVE";
+  const ERROR_DELETE = "ERROR_DELET";
 
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
@@ -26,32 +30,54 @@ export default function Index(props) {
       interviewer,
     };
     transition(SAVING);
-    props.bookInterview(props.id, interview).then(transition(SHOW));
+    props
+      .bookInterview(props.id, interview)
+      .then(() => transition(SHOW))
+      .catch((err) => transition(ERROR_SAVE, true));
   }
 
+  // * Error will appear, and the dissapears
   function deleteAppointment() {
-    transition(DELETE, true);
+    transition(DELETE);
     props
       .cancelInterview(props.id)
       .then(() => transition(EMPTY))
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(() => transition(ERROR_DELETE, true));
   }
 
   function onDelete() {
     transition(CONFIRM);
   }
 
+  function onEdit() {
+    transition(EDIT);
+  }
+
   return (
     <article className="appointment">
       <Header time={props.time}></Header>
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
+      {mode === EDIT && (
+        <Form
+          name={props.interview.student}
+          interviewer={props.interview.interviewer.id}
+          interviewers={props.interviewers}
+          onSave={save}
+          onCancel={back}
+        />
+      )}
+      {mode === ERROR_SAVE && (
+        <Error message={"Something went wrong while saving"} onClose={back} />
+      )}
+      {mode === ERROR_DELETE && (
+        <Error message={"Something went wrong while deleting"} onClose={back} />
+      )}
       {mode === SHOW && (
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
           onDelete={onDelete}
+          onEdit={onEdit}
         />
       )}
       {mode === SAVING && <Status message="Saving" />}
