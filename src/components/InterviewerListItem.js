@@ -1,6 +1,14 @@
 import React from "react";
 import "components/InterviewerListItem.scss";
-const classnames = require("classnames");
+import PropTypes from "prop-types";
+import classnames from "classnames";
+
+InterviewerListItem.propTypes = {
+  name: PropTypes.string.isRequired,
+  avatar: PropTypes.string.isRequired,
+  selected: PropTypes.bool,
+  setInterviewer: PropTypes.func,
+};
 
 export default function InterviewerListItem(props) {
   const { name, avatar, selected, setInterviewer } = props;

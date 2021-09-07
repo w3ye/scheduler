@@ -9,7 +9,7 @@ import Status from "../Appointment/Status";
 import Confirm from "../Appointment/Confirm";
 import Error from "../Appointment/Error";
 
-export default function Index(props) {
+export default function Appointment(props) {
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
