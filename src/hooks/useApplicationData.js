@@ -77,7 +77,7 @@ export default function useApplicationData() {
    * @returns spots
    */
   function updateSpots(flag) {
-    const sumOne = flag ? +1 : -1;
+    const sumOne = flag ? 1 : -1;
     const newDays = state.days.map((day) => {
       if (day.name === state.currentDay) {
         day.spots = day.spots + sumOne;
