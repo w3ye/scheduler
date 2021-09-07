@@ -34,9 +34,5 @@ export default function useVisualMode(initial) {
     }
   }
 
-  useEffect(() => {
-    console.log(history);
-  }, [history]);
-
   return { mode, transition, back };
 }
