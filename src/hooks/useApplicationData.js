@@ -73,8 +73,7 @@ export default function useApplicationData() {
 
   /**
    * Update spots
-   * @param {boolean} flag, true = +1, false = -1
-   * @returns spots
+   * @param {boolean} flag - true = +1, false = -1
    */
   function updateSpots(flag) {
     const sumOne = flag ? 1 : -1;
