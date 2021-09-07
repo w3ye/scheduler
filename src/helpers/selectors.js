@@ -22,21 +22,18 @@ export function getInterview(state, interview) {
   return ret;
 }
 
+/**
+ * Get the interviewers for a specific day
+ * @param {Object} state
+ * @param {string} day
+ * @returns {string[]} Array of interviewers
+ */
 export function getInterviewersForDay(state, day) {
   const ret = [];
   const filteredDays = state.days.filter((i) => i.name === day);
   filteredDays.forEach((i) => {
-    // appointment array
-    i.appointments.forEach((appointment) => {
-      // interview within the appointment array
-      const interview = state.appointments[appointment].interview;
-      if (interview) {
-        const interviewer = interview.interviewer;
-        // avoid duplication
-        if (!ret.includes(state.interviewers[interviewer])) {
-          ret.push(state.interviewers[interviewer]);
-        }
-      }
+    i.interviewers.forEach((interviewer) => {
+      ret.push(state.interviewers[interviewer]);
     });
   });
   return ret;
