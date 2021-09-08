@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 Form.propTypes = {
   name: PropTypes.string,
   interviewers: PropTypes.array,
-  interviewer: PropTypes.object,
+  interviewer: PropTypes.number,
   onSave: PropTypes.func,
   onCancel: PropTypes.func,
 };
@@ -30,6 +30,10 @@ export default function Form(props) {
     setError("");
     if (name === "") {
       setError("Student name cannot be blank");
+      return;
+    }
+    if (interviewer === null) {
+      setError("no interviewer");
       return;
     }
     props.onSave(name, interviewer);
