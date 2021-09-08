@@ -1,19 +1,20 @@
 import React, { useState } from "react";
 import InterviewerList from "components/InterviewerList";
 import Button from "components/Button";
+import PropTypes from "prop-types";
 
-/**
- * Renders a form for creating, editing an appointment
- * @params {Object} props
- * @props {String} name
- * @props {String[]} interviewers
- * @props {String} interviewer
- * @props {function} onSave
- * @props {function} onCancel
- */
+Form.propTypes = {
+  name: PropTypes.string,
+  interviewers: PropTypes.array,
+  interviewer: PropTypes.object,
+  onSave: PropTypes.func,
+  onCancel: PropTypes.func,
+};
+
 export default function Form(props) {
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
   const [name, setName] = useState(props.name || "");
+  const [error, setError] = useState("");
 
   function reset() {
     setInterviewer(null);
@@ -23,6 +24,14 @@ export default function Form(props) {
   function cancel() {
     reset();
     return props.onCancel();
+  }
+
+  function validate() {
+    if (name === "") {
+      setError("Student name cannot be blank");
+      return;
+    }
+    props.onSave(name, interviewer);
   }
 
   return (
@@ -36,10 +45,12 @@ export default function Form(props) {
             placeholder="Enter Student Name"
             value={name}
             onChange={(event) => setName(event.target.value)}
+            data-testid="student-name-input"
             /*
           This must be a controlled component
         */
           />
+          <section className="appointment__validation">{error}</section>
         </form>
         <InterviewerList
           interviewers={props.interviewers}
@@ -52,7 +63,7 @@ export default function Form(props) {
           <Button danger onClick={cancel}>
             Cancel
           </Button>
-          <Button confirm onClick={() => props.onSave(name, interviewer)}>
+          <Button confirm onClick={validate}>
             Save
           </Button>
         </section>
