@@ -21,6 +21,7 @@ export default function useApplicationData() {
       ...state.appointments[id],
       interview: { ...interview },
     };
+
     const appointments = {
       ...state.appointments,
       [id]: appointment,
@@ -35,8 +36,9 @@ export default function useApplicationData() {
           ...state,
           appointments,
         });
+        console.log(state.appointments);
       })
-      .then(() => {
+      .finally(() => {
         updateSpots(false);
       });
   }
@@ -52,6 +54,7 @@ export default function useApplicationData() {
       ...state.appointments[id],
       interview: null,
     };
+
     // Set a new appointments array
     const appointments = {
       ...state.appointments,
@@ -66,7 +69,7 @@ export default function useApplicationData() {
           appointments,
         });
       })
-      .then(() => {
+      .finally(() => {
         updateSpots(true);
       });
   }
@@ -76,10 +79,13 @@ export default function useApplicationData() {
    * @param {boolean} flag - true = +1, false = -1
    */
   function updateSpots(flag) {
-    const sumOne = flag ? 1 : -1;
     const newDays = state.days.map((day) => {
       if (day.name === state.currentDay) {
-        day.spots = day.spots + sumOne;
+        const emptyAppointment = day.appointments.filter((appointment) => {
+          return state.appointments[appointment].interview;
+        });
+        // available spots would be equal to the total empty interviews for the day
+        day.spots = emptyAppointment.length;
       }
       return day;
     });
