@@ -36,10 +36,9 @@ export default function useApplicationData() {
           ...state,
           appointments,
         });
-        console.log(state.appointments);
       })
       .finally(() => {
-        updateSpots(false);
+        updateSpots();
       });
   }
 
@@ -70,25 +69,26 @@ export default function useApplicationData() {
         });
       })
       .finally(() => {
-        updateSpots(true);
+        updateSpots();
       });
   }
 
   /**
-   * Update spots
-   * @param {boolean} flag - true = +1, false = -1
+   * Update spots when a user creates/deletes an interview
    */
-  function updateSpots(flag) {
+  function updateSpots() {
     const newDays = state.days.map((day) => {
       if (day.name === state.currentDay) {
         const emptyAppointment = day.appointments.filter((appointment) => {
           return state.appointments[appointment].interview;
         });
+        console.log("emptyAppointment:", emptyAppointment);
         // available spots would be equal to the total empty interviews for the day
         day.spots = emptyAppointment.length;
       }
       return day;
     });
+    console.log("newDays:", newDays);
     setState((prev) => ({
       ...prev,
       days: newDays,
