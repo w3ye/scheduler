@@ -10,8 +10,16 @@ Interview Scheduler is a single page web application built with React that allow
 
 ## Screenshots
 
+### Create a new appointment
+
 !["Create new appointment"](./screenshots/new_appointment.gif)
+
+### Edit an existing appointment
+
 !["Edit an existing appointment"](./screenshots/edit_appointment.gif)
+
+### Delete an appointment
+
 !["Delete an appointment"](./screenshots/cancel_appointment.gif)
 
 ## Setup
