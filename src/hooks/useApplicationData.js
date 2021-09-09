@@ -38,7 +38,7 @@ export default function useApplicationData() {
         });
       })
       .finally(() => {
-        updateSpots();
+        updateSpots(appointments);
       });
   }
 
@@ -69,26 +69,32 @@ export default function useApplicationData() {
         });
       })
       .finally(() => {
-        updateSpots();
+        updateSpots(appointments);
       });
   }
 
   /**
    * Update spots when a user creates/deletes an interview
    */
-  function updateSpots() {
-    const newDays = state.days.map((day) => {
-      if (day.name === state.currentDay) {
-        const emptyAppointment = day.appointments.filter((appointment) => {
-          return state.appointments[appointment].interview;
-        });
-        console.log("emptyAppointment:", emptyAppointment);
-        // available spots would be equal to the total empty interviews for the day
-        day.spots = emptyAppointment.length;
-      }
-      return day;
+  function updateSpots(appointments) {
+    let currentDayIndex;
+    const newDays = [...state.days];
+    const currentDay = state.days.find((day, index) => {
+      // we need the index of the day, since we only want to update the array
+      currentDayIndex = index;
+      return day.name === state.currentDay;
     });
-    console.log("newDays:", newDays);
+    const emptyInterviewForCurrentDay = currentDay.appointments.filter(
+      (appointment) => {
+        // get all the interviews that are null for the day
+        return !appointments[appointment].interview;
+      }
+    );
+    newDays[currentDayIndex] = {
+      ...newDays[currentDayIndex],
+      spots: emptyInterviewForCurrentDay.length,
+    };
+    console.log(newDays);
     setState((prev) => ({
       ...prev,
       days: newDays,
