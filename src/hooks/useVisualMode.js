@@ -15,9 +15,10 @@ export default function useVisualMode(initial) {
       setHistory((prev) => [...prev, newMode]);
     } else {
       // remove the last element from the array and update history
-      const tempHistoy = history;
+      const tempHistoy = [...history];
       tempHistoy.pop();
-      setHistory([...tempHistoy, newMode]);
+      // setHistory([...tempHistoy, newMode]);
+      setHistory((prev) => [...prev, newMode]);
     }
   }
 
@@ -26,7 +27,7 @@ export default function useVisualMode(initial) {
    */
   function back() {
     if (history.length > 1) {
-      const tempHistory = history;
+      const tempHistory = [...history];
       tempHistory.pop();
       setMode(tempHistory[tempHistory.length - 1]);
     } else if (history.length === 1) {
