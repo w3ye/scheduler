@@ -32,13 +32,12 @@ export default function useApplicationData() {
         interview,
       })
       .then((result) => {
+        const newDays = updateSpots(appointments);
         setState({
           ...state,
           appointments,
+          days: newDays,
         });
-      })
-      .finally(() => {
-        updateSpots(appointments);
       });
   }
 
@@ -60,17 +59,14 @@ export default function useApplicationData() {
       [id]: appointment,
     };
 
-    return axios
-      .delete(`/api/appointments/${id}`, {})
-      .then((res) => {
-        setState({
-          ...state,
-          appointments,
-        });
-      })
-      .finally(() => {
-        updateSpots(appointments);
+    return axios.delete(`/api/appointments/${id}`, {}).then((result) => {
+      const newDays = updateSpots(appointments);
+      setState({
+        ...state,
+        appointments,
+        days: newDays,
       });
+    });
   }
 
   /**
@@ -94,11 +90,7 @@ export default function useApplicationData() {
       ...newDays[currentDayIndex],
       spots: emptyInterviewForCurrentDay.length,
     };
-    console.log(newDays);
-    setState((prev) => ({
-      ...prev,
-      days: newDays,
-    }));
+    return newDays;
   }
 
   // API request
