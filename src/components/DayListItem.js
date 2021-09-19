@@ -1,12 +1,7 @@
 import React from "react";
 import "components/DayListItem.scss";
+import { formatSpots } from "helpers/format";
 const classnames = require("classnames");
-
-function formatSpots(spot) {
-  if (spot === 0) return "no spots remaining";
-  else if (spot === 1) return "1 spot remaining";
-  else return `${spot} spots remaining`;
-}
 
 export default function DayListItem(props) {
   const { name, spots, selected, setDay } = props;
