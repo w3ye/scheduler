@@ -68,9 +68,10 @@ export default function useApplicationData() {
       });
     });
   }
-
   /**
-   * Update spots when a user creates/deletes an interview
+   * Update available spots
+   * @param  {Object} appointments
+   * {@link bookInterview} {@link cancelInterview}
    */
   function updateSpots(appointments) {
     let currentDayIndex;

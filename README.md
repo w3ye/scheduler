@@ -10,8 +10,16 @@ Interview Scheduler is a single page web application built with React that allow
 
 ## Screenshots
 
+### Create a new appointment
+
 !["Create new appointment"](./screenshots/new_appointment.gif)
+
+### Edit an existing appointment
+
 !["Edit an existing appointment"](./screenshots/edit_appointment.gif)
+
+### Delete an appointment
+
 !["Delete an appointment"](./screenshots/cancel_appointment.gif)
 
 ## Setup
@@ -39,3 +47,18 @@ npm test
 ```sh
 npm run storybook
 ```
+
+## Dependencies
+
+- React (16.9.0)
+- Axios (0.21.1)
+- classname (2.2.6)
+- babel (7.4.3)
+- node-sass (4.14.0)
+- prop-types (15.7.2)
+
+## Testing
+
+- Jest (4.0.0)
+- storybook (5.0.10)
+- Cypress
