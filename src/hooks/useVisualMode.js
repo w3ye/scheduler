@@ -16,8 +16,7 @@ export default function useVisualMode(initial) {
     } else {
       // remove the last element from the array and update history
       const tempHistoy = history;
-      tempHistoy.pop();
-      setHistory([...tempHistoy, newMode]);
+      setHistory((prev) => [...prev.slice(0, prev.length - 1), newMode]);
     }
   }
 
